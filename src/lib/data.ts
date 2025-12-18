@@ -2,21 +2,12 @@
 
 export const projects = [
   {
-    id: 1,
-    title: 'Projeto 1',
-    description: 'descrição',
-    imageUrl: '/project1.png', 
-    tags: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Prisma'],
-    liveUrl: '...',
-    githubUrl: '...',
+    title: 'E-Commerce Platform',
+    description: 'Plataforma completa de e-commerce com carrinho de compras...',
+    image: '/images/ecommerce.png',
+    tags: ['React', 'Node.js', 'PostgreSQL', 'Stripe'],
+    liveUrl: 'https://exemplo.com',
+    githubUrl: 'https://github.com',
   },
-  {
-    id: 2,
-    title: 'Projeto 2',
-    description: 'descrição',
-    imageUrl: '/project2.png',
-    tags: ['Node.js', 'NestJS', 'PostgreSQL', 'Docker'],
-    liveUrl: '...',
-    githubUrl: '...',
-  },
+  // ... outros projetos
 ];
