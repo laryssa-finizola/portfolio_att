@@ -15,14 +15,60 @@ export function Contact() {
     name: '',
     email: '',
     message: '',
+    company: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [status, setStatus] = useState<
+    | { state: 'idle' }
+    | { state: 'sending' }
+    | { state: 'success' }
+    | { state: 'success-with-warning'; message: string }
+    | { state: 'error'; message: string }
+  >({ state: 'idle' });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui você pode integrar com Formspree, EmailJS ou seu próprio backend
-    console.log('Form submitted:', formData);
-    alert('Obrigada pelo contato! Em breve retornarei.');
-    setFormData({ name: '', email: '', message: '' });
+
+    try {
+      setStatus({ state: 'sending' });
+
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = (await res.json().catch(() => null)) as
+        | { ok: true; userEmailSent?: boolean }
+        | { ok: false; error?: string; issues?: unknown };
+
+      if (!res.ok || !data || data.ok === false) {
+        setStatus({
+          state: 'error',
+          message: 'Não foi possível enviar agora. Tente novamente em instantes.',
+        });
+        return;
+      }
+
+      if (data && 'userEmailSent' in data && data.userEmailSent === false) {
+        setStatus({
+          state: 'success-with-warning',
+          message:
+            'Mensagem enviada! Aguarde que em breve vou responder.',
+        });
+      } else {
+        setStatus({ state: 'success' });
+      }
+      setFormData({ name: '', email: '', message: '', company: '' });
+
+      // volta ao estado inicial depois de um tempo
+      setTimeout(() => setStatus({ state: 'idle' }), 5000);
+    } catch {
+      setStatus({
+        state: 'error',
+        message: 'Ocorreu um erro ao enviar. Verifique sua conexão e tente novamente.',
+      });
+    }
   };
 
   const contactInfo = [
@@ -114,6 +160,19 @@ export function Contact() {
             className="bg-slate-50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-slate-200 dark:border-slate-700 shadow-lg"
           >
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Honeypot anti-spam (deve ficar vazio) */}
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="company">Company</label>
+                <input
+                  type="text"
+                  id="company"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={formData.company}
+                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                />
+              </div>
+
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Nome
@@ -161,11 +220,30 @@ export function Contact() {
 
               <button
                 type="submit"
+                disabled={status.state === 'sending'}
                 className="w-full px-6 py-4 bg-violet-600 hover:bg-violet-700 text-white font-semibold rounded-xl transition-all hover:scale-[1.02] shadow-lg shadow-violet-600/25 flex items-center justify-center gap-2 active:scale-95"
               >
                 <Send size={20} />
-                <span>Enviar Mensagem</span>
+                <span>{status.state === 'sending' ? 'Enviando...' : 'Enviar Mensagem'}</span>
               </button>
+
+              {status.state === 'success' && (
+                <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium">
+                  Mensagem enviada! Obrigada por entrar em contato.
+                </p>
+              )}
+
+              {status.state === 'success-with-warning' && (
+                <p className="text-sm text-amber-600 dark:text-amber-400 font-medium">
+                  {status.message}
+                </p>
+              )}
+
+              {status.state === 'error' && (
+                <p className="text-sm text-red-600 dark:text-red-400 font-medium">
+                  {status.message}
+                </p>
+              )}
             </form>
           </motion.div>
         </div>

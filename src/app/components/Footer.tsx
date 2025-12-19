@@ -43,9 +43,9 @@ export function Footer() {
             </h4>
             <div className="flex gap-4">
               {[
-                { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-                { icon: Github, href: "https://github.com", label: "GitHub" },
-                { icon: Mail, href: "mailto:laryssa@example.com", label: "Email" },
+                { icon: Linkedin, href: "https://www.linkedin.com/in/laryssafinizola/", label: "LinkedIn" },
+                { icon: Github, href: "https://github.com/laryssa-finizola", label: "GitHub" },
+                { icon: Mail, href: "mailto:laryssafinizoladev@gmail.com", label: "Email" },
               ].map((social, index) => (
                 <a
                   key={index}
