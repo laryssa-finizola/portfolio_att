@@ -10,7 +10,7 @@ interface ProjectProps {
     description: string;
     image: string; 
     tags: string[];
-    liveUrl: string;
+    liveUrl?: string;
     githubUrl: string;
   };
   index: number;
@@ -37,20 +37,22 @@ export function ProjectCard({ project, index }: ProjectProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-300" />
 
         <div className="absolute bottom-4 left-4 right-4 flex gap-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg transition-colors font-medium shadow-lg"
-          >
-            <ExternalLink size={18} />
-            <span>Ver Demo</span>
-          </a>
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg transition-colors font-medium shadow-lg"
+            >
+              <ExternalLink size={18} />
+              <span>Ver Demo</span>
+            </a>
+          )}
           <a
             href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-white text-slate-900 hover:bg-slate-200 rounded-lg transition-colors shadow-lg"
+            className={`${project.liveUrl ? 'px-4' : 'flex-1 justify-center'} flex items-center py-2 bg-white text-slate-900 hover:bg-slate-200 rounded-lg transition-colors shadow-lg`}
             title="Ver Código"
           >
             <Github size={18} />
