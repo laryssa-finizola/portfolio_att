@@ -1,0 +1,25 @@
+.scene-rotation-controls { display: flex; justify-content: flex-end; gap: 6px; margin: 8px 24px 0; }
+.scene-rotation-controls button { min-width: 32px; min-height: 32px; border: 1px solid var(--line); border-radius: 5px; color: var(--subtext); background: var(--surface); font-size: 10px; padding: 6px 10px; }
+.scene-rotation-controls button:hover { color: var(--text); border-color: var(--violet); }
+.scene-simple .architecture-scene { min-height: 330px; cursor: default; perspective: none; }
+.scene-simple .stack-model { transform: none; display: flex; flex-direction: column-reverse; align-items: center; justify-content: center; gap: 15px; }
+.scene-simple .stack-plate { position: relative; inset: auto; margin: 0; width: min(88%, 340px); height: 78px; transform: none; box-shadow: none; }
+.scene-simple .stack-plate::before, .scene-simple .stack-plate::after, .scene-simple .scene-halo, .scene-simple .scene-scanline, .scene-simple .scene-glint, .scene-simple .connection-rod, .scene-simple .mini-ui-window, .scene-simple .api-flow, .scene-simple .database-ui { display: none; }
+.scene-simple .plate-inner { transform: none; padding: 12px 18px; }
+.scene-simple .plate-serial { font-size: 9px; }
+.scene-simple .plate-name { font-size: 20px; left: 18px; bottom: 10px; }
+.scene-simple .plate-node { top: 32px; right: 24px; width: 8px; height: 8px; box-shadow: none; }
+.lab-tab[aria-pressed="true"] { border-color: var(--accent); }
+.lab-insight { min-height: 232px; }
+.lab-insight .lab-detail-title { font-size: clamp(24px, 2.5vw, 35px); }
+.orbit-node { overflow-wrap: anywhere; padding: 4px; }
+@supports not (transform-style: preserve-3d) {
+  .architecture-scene { min-height: 330px; perspective: none; }
+  .stack-model { transform: none; display: flex; flex-direction: column-reverse; align-items: center; justify-content: center; gap: 15px; }
+  .stack-plate { position: relative; inset: auto; margin: 0; width: 88%; height: 78px; transform: none; box-shadow: none; }
+  .stack-plate::before, .stack-plate::after, .scene-halo, .scene-scanline, .scene-glint, .connection-rod, .mini-ui-window, .api-flow, .database-ui { display: none; }
+  .plate-inner { transform: none; }
+  .plate-name { font-size: 20px; }
+  .scene-rotation-controls { display: none; }
+}
+@media (max-width: 760px) { .scene-rotation-controls { margin-inline: 4px; } .lab-tab-name { font-size: 17px; } }

@@ -1,103 +1,45 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Code2, Rocket, Users, Award } from 'lucide-react';
+﻿import Image from 'next/image';
 
 export function About() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const highlights = [
-    {
-      icon: Code2,
-      title: 'Código Limpo',
-      description: 'Escrevo código limpo, testável e manutenível seguindo as melhores práticas.',
-    },
-    {
-      icon: Rocket,
-      title: 'Performance',
-      description: 'Otimização constante para garantir aplicações rápidas e responsivas.',
-    },
-    {
-      icon: Users,
-      title: 'Colaboração',
-      description: 'Trabalho bem em equipe, comunicação clara e foco em resultados.',
-    },
-    {
-      icon: Award,
-      title: 'Qualidade',
-      description: 'Comprometida com excelência e atenção aos detalhes em cada projeto.',
-    },
-  ];
-
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-900 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* Título da Seção */}
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-            Sobre Mim
-          </h2>
-          <div className="w-24 h-1.5 bg-gradient-to-r from-violet-600 to-fuchsia-500 mx-auto rounded-full"></div>
-        </motion.div>
-
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          
-          {/* Lado Esquerdo: Texto */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg leading-relaxed text-slate-600 dark:text-slate-300 space-y-6 text-justify"
-          >
-            <p>
-              Sou desenvolvedora full-stack apaixonada por criar soluções inovadoras e eficientes. Tenho experiência em tecnologias modernas, buscando sempre aprender e aplicar as melhores práticas do mercado.
-            </p>
-            <p>
-              Atualmente também sou estudante de Ciências da Computação pela Universidade Estadual da Paraíba, o que aprimora meus conhecimentos teóricos e práticos na área de desenvolvimento de software.
-            </p>
-            <p>
-              Apesar de focar no desenvolvimento web, estou sempre aberta a explorar novas áreas e desafios que me permitam crescer profissionalmente.
-            </p>
-          </motion.div>
-
-          {/* Lado Direito: Cards de Destaque */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-          >
-            {highlights.map((highlight, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                className="p-6 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 hover:border-violet-500/50 hover:shadow-lg dark:hover:shadow-violet-500/10 transition-all duration-300"
-              >
-                <div className="w-12 h-12 bg-violet-100 dark:bg-violet-900/30 rounded-xl flex items-center justify-center mb-4 text-violet-600 dark:text-violet-400">
-                  <highlight.icon size={24} />
-                </div>
-                <h3 className="font-bold text-slate-900 dark:text-white mb-2">
-                  {highlight.title}
-                </h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400">
-                  {highlight.description}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
+    <section aria-labelledby="aboutTitle" className="about-section section-paper" id="sobre">
+      <div className="shell">
+        <div className="section-kicker"><span className="section-index">03 / 04</span><span>QUEM ESTÁ POR TRÁS</span></div>
+        <div className="about-grid">
+          <div className="about-story">
+            <div className="about-intro">
+              <Image src="/profile-pic.png" alt="Laryssa Finizola" width={76} height={76} sizes="76px" className="about-portrait" />
+              <p className="story-mini">PRAZER, LARYSSA.</p>
+            </div>
+            <h2 id="aboutTitle">Curiosidade<br />que vira <em>código.</em></h2>
+            <p>Sou desenvolvedora full-stack e estudante de Ciência da Computação pela Universidade Estadual da Paraíba. Gosto de entender o problema antes de propor a solução — e de conectar decisões de interface, arquitetura e dados em um produto consistente.</p>
+            <p>Meu foco é o desenvolvimento web, com abertura para novas áreas e desafios. Aprendizado contínuo, comunicação e colaboração fazem parte de como trabalho.</p>
+            <div className="about-quote"><span aria-hidden="true">✳</span><strong>Experiência de usuário e engenharia fazem parte da mesma construção.</strong></div>
+          </div>
+          <div className="timeline" aria-labelledby="experienceTitle">
+            <div className="timeline-title"><h3 id="experienceTitle">TRAJETÓRIA / EM CONSTRUÇÃO</h3><span>2025 — ATUAL</span></div>
+            <div className="timeline-item">
+              <span className="timeline-time">2026 — ATUAL</span>
+              <div><h3>NUTES / UEPB</h3><p>Estágio em Engenharia de Software</p><small>APIs REST · Microserviços · Saúde digital</small></div>
+              <span className="timeline-arrow" aria-hidden="true">↗</span>
+            </div>
+            <div className="timeline-item">
+              <span className="timeline-time">2025 — ATUAL</span>
+              <div><h3>Jrssoft</h3><p>Desenvolvimento Full-stack</p><small>TypeScript · NestJS · Integrações</small></div>
+              <span className="timeline-arrow" aria-hidden="true">↗</span>
+            </div>
+            <div className="timeline-item">
+              <span className="timeline-time">FORMAÇÃO</span>
+              <div><h3>UEPB</h3><p>Ciência da Computação</p><small>Fundamentos + experiências práticas</small></div>
+              <span className="timeline-arrow" aria-hidden="true">↗</span>
+            </div>
+            <a className="about-link" href="https://www.linkedin.com/in/laryssafinizola/" rel="noopener noreferrer" target="_blank">Conhecer minha trajetória completa <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <div className="principle-strip">
+          {['Entender o contexto', 'Projetar com intenção', 'Construir com qualidade', 'Iterar com feedback'].map((principle, index) => (
+            <div key={principle}><span>0{index + 1}</span><strong>{principle}</strong></div>
+          ))}
         </div>
       </div>
     </section>
