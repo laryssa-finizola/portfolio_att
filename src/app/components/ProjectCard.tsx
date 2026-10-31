@@ -1,84 +1,59 @@
-'use client';
+﻿'use client';
 
-import { motion } from 'framer-motion';
-import { ExternalLink, Github } from 'lucide-react';
+import { useRef } from 'react';
 import Image from 'next/image';
+import type { Project } from '@/lib/data';
+import { ProjectPreview, type PreviewHandle } from './ProjectPreview';
 
-interface ProjectProps {
-  project: {
-    title: string;
-    description: string;
-    image: string; 
-    tags: string[];
-    liveUrl?: string;
-    githubUrl: string;
-  };
+interface ProjectCardProps {
+  project: Project;
   index: number;
+  onOpenCase: (project: Project, button: HTMLButtonElement) => void;
 }
 
-export function ProjectCard({ project, index }: ProjectProps) {
+function ConceptVisual({ project }: { project: Project }) {
+  if (project.id === 'alinhora') {
+    return <div aria-hidden="true" className="alinhora-scene">
+      <div className="alinhora-header"><strong>alinhora<span>.</span></strong><span>✳ AGENDA INTELIGENTE</span></div>
+      <div className="calendar-window"><div className="calendar-title">Minha agenda <span>OUTUBRO 2026 ▾</span></div>
+        <div className="calendar-days">{['S', 'T', 'Q', 'Q', 'S', 'S', 'D'].map((day, index) => <b key={index}>{day}</b>)}</div>
+        <div className="calendar-dates">{['26', '27', '28', '29', '30', '31', '1'].map((day) => <span key={day} className={day === '28' ? 'selected' : ''}>{day}</span>)}</div>
+        <div className="calendar-slot"><b>09:00</b><span>Horário disponível</span><i>↗</i></div>
+        <div className="calendar-slot"><b>10:30</b><span>Agendamento</span><i>✓</i></div>
+      </div><span className="alinhora-footer">AGENDE SEUS SERVIÇOS &nbsp; ↗</span>
+    </div>;
+  }
+  return <div aria-hidden="true" className="rodrigues-scene"><span className="rodrigues-brow">R &nbsp; / &nbsp; TURISMO</span><div className="rodrigues-sun" /><div className="rodrigues-landscape"><i /><i /></div><div className="rodrigues-title">Viva novas<br /><em>histórias.</em></div><span className="rodrigues-signature">RODRIGUES <b>TURISMO</b></span></div>;
+}
+
+export function ProjectCard({ project, index, onOpenCase }: ProjectCardProps) {
+  const preview = useRef<PreviewHandle>(null);
+  const hovered = useRef(false);
+  const featured = project.id === 'loop';
+  const visualClass = project.id === 'challengefy' ? 'challenge' : project.id === 'fullstackfy' ? 'fullstack' : project.id;
+  const caseButton = <button aria-label={`Bastidores de ${project.title}`} className={featured ? 'case-link' : undefined} onClick={(event) => { preview.current?.pause(); onOpenCase(project, event.currentTarget); }} type="button">Bastidores <span aria-hidden="true">{featured ? '↗' : '+'}</span></button>;
+  const resultLink = project.result && <a className={featured ? 'feature-public-link' : undefined} href={project.result.url} rel="noopener noreferrer" target="_blank" aria-label={`${project.result.label}: ${project.title}`}>{project.result.label} <span aria-hidden="true">↗</span></a>;
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group bg-slate-50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-violet-500/50 hover:shadow-xl dark:hover:shadow-violet-500/10 transition-all duration-300 hover:-translate-y-1"
-    >
-
-      <div className="relative h-64 overflow-hidden">
-        <Image
-          src={project.image}
-          alt={project.title}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
-        />
-        
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-300" />
-
-        <div className="absolute bottom-4 left-4 right-4 flex gap-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg transition-colors font-medium shadow-lg"
-            >
-              <ExternalLink size={18} />
-              <span>Ver Demo</span>
-            </a>
-          )}
-          <a
-            href={project.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${project.liveUrl ? 'px-4' : 'flex-1 justify-center'} flex items-center py-2 bg-white text-slate-900 hover:bg-slate-200 rounded-lg transition-colors shadow-lg`}
-            title="Ver Código"
-          >
-            <Github size={18} />
-          </a>
-        </div>
+    <article className={`project-card ${featured ? 'feature-project' : 'regular-project'}`} data-category={project.category}
+      onPointerEnter={(event) => { if (event.pointerType === 'mouse') { hovered.current = true; preview.current?.play(); } }}
+      onPointerLeave={(event) => { hovered.current = false; if (!event.currentTarget.contains(document.activeElement)) preview.current?.pause(); }}
+      onFocus={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) preview.current?.play(); }}
+      onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget) && !hovered.current) preview.current?.pause(); }}>
+      <div className={featured ? 'feature-visual feature-visual-loop' : `project-visual project-visual-${visualClass}`}>
+        {project.preview ? <ProjectPreview ref={preview} project={project} featured={featured} /> : project.image ? <><Image alt={`Captura da interface do projeto ${project.title}`} src={project.image} width={960} height={600} sizes="(max-width: 760px) 80vw, 38vw" className="project-screenshot" /><span aria-hidden="true" className="image-sheen" /></> : <ConceptVisual project={project} />}
+        {featured ? <div aria-hidden="true" className="loop-visual-foot"><span>LOOP 3D / IMPRESSÃO 3D</span><span>DEMONSTRAÇÃO REAL</span></div> : <><span className="visual-num">{String(index + 1).padStart(2, '0')} / 07</span><span className={`visual-status${project.id === 'margem' || project.id === 'alinhora' ? ' status-progress' : ''}`}>{project.status}</span></>}
       </div>
-
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">
-          {project.title}
-        </h3>
-        <p className="text-slate-600 dark:text-slate-400 mb-4 line-clamp-3 text-sm leading-relaxed text-justify">
-          {project.description}
-        </p>
-        
-        <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag, tagIndex) => (
-            <span
-              key={tagIndex}
-              className="px-3 py-1 text-xs font-medium bg-violet-100 dark:bg-violet-600/10 border border-violet-200 dark:border-violet-500/20 text-violet-700 dark:text-violet-300 rounded-full"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-    </motion.div>
+      {featured ? <div className="feature-copy">
+        <div className="project-overline"><span>01 — PROJETO EM DESTAQUE</span><span className="project-type">{project.status}</span></div>
+        <div><p className="project-prompt">{project.prompt}</p><h3 aria-label={project.title}>LOOP <span>3D</span><span aria-hidden="true" className="asterisk">✳</span></h3><p className="project-summary">{project.description}</p></div>
+        <div className="tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+        <div className="project-actions"><span className="private-note"><span aria-hidden="true" className="live-dot" /> DISPONÍVEL ONLINE</span><div className="featured-links">{resultLink}{caseButton}</div></div>
+      </div> : <div className="regular-copy">
+        <p className="project-prompt">{project.prompt}</p><h3>{project.title} <span aria-hidden="true">{project.id === 'heloire' || project.id === 'margem' ? '✳' : '↗'}</span></h3><p>{project.description}</p>
+        <div className="tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+        <div className="regular-actions">{resultLink || <span className="action-context">{project.id === 'rodrigues' ? 'APRESENTAÇÃO VISUAL' : project.status}</span>}{caseButton}</div>
+      </div>}
+    </article>
   );
 }

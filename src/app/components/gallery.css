@@ -1,0 +1,33 @@
+﻿/* React gallery additions to the approved V4 presentation. */
+.case-dialog::backdrop {
+  background: rgb(7 8 14 / 84%);
+  backdrop-filter: blur(10px);
+}
+.case-dialog {
+  width: min(800px, calc(100% - 32px));
+  max-height: min(88dvh, 900px);
+  margin: auto;
+  overscroll-behavior: contain;
+  overflow-wrap: anywhere;
+}
+.case-dialog:not([open]) { display: none; }
+.dialog-decision { padding-top: 24px; }
+.dialog-decision p { color: #d1ced7; font-size: 15px; line-height: 1.7; }
+.case-dialog .dialog-small { margin: 0; }
+.project-card { min-width: 0; }
+.project-card:focus-within { box-shadow: 0 0 0 2px #516a2b; }
+.regular-actions a, .regular-actions button, .case-link { min-height: 44px; }
+.regular-actions a { display: inline-flex; align-items: center; gap: 5px; }
+.regular-actions { flex-wrap: wrap; }
+.project-visual .project-screenshot { height: 77%; }
+.preview-frame .preview-poster { margin: 0; }
+.preview-toggle { min-height: 38px; }
+.preview-toggle:disabled { opacity: 1; color: #fff; }
+.project-card:focus-within .preview-frame--feature,
+.project-card:focus-within .preview-frame--regular { transform: perspective(1000px) rotateY(0) rotateX(0) rotateZ(0); }
+@media (prefers-reduced-motion: reduce) {
+  .project-visual img, .project-card:hover .project-visual img,
+  .preview-frame, .project-card:hover .preview-frame,
+  .project-card:focus-within .preview-frame,
+  .alinhora-scene, .project-card:hover .alinhora-scene { transform: none; }
+}
