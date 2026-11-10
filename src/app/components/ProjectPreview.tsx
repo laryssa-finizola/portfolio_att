@@ -173,11 +173,11 @@ export const ProjectPreview = forwardRef<PreviewHandle, { project: Project; feat
     <div ref={frameRef} className={`preview-frame preview-frame--${featured ? 'feature' : 'regular'}${playing ? ' is-playing' : ''}`} data-video-project={project.id}>
       <div aria-hidden="true" className="preview-chrome"><span className="preview-dots"><i /><i /><i /></span><span>{project.title} / DEMONSTRAÇÃO REAL</span><span className="preview-arrow">↗</span></div>
       <div className="preview-media">
-        <video ref={videoRef} aria-hidden="true" className="preview-video" loop muted playsInline preload="none" poster={preview.poster}
+        <video ref={videoRef} aria-hidden="true" className="preview-video" loop muted playsInline preload="none"
           onPlaying={(event) => { if (token.current !== null && coordinator.isCurrent(event.currentTarget, token.current)) setPlaying(true); else event.currentTarget.pause(); }}
           onPause={() => { if (alive.current) setPlaying(false); }}
           onError={() => { if (alive.current) { pause(); setUnavailable(true); } }} />
-        <Image alt={`Prévia da interface de ${project.title}`} src={preview.poster} width={960} height={504} sizes={featured ? '(max-width: 1000px) 85vw, 44vw' : '(max-width: 760px) 80vw, 38vw'} className="preview-poster" />
+        <Image alt={`Prévia da interface de ${project.title}`} src={preview.poster} width={960} height={504} sizes={featured ? '(max-width: 1000px) 85vw, 44vw' : '(max-width: 800px) 90vw, (max-width: 1100px) 44vw, 26vw'} className="preview-poster" />
         <span aria-hidden="true" className="preview-overlay" />
         <button className="preview-toggle" type="button" aria-label={unavailable ? `Prévia indisponível de ${project.title}` : `${playing ? 'Pausar' : 'Reproduzir'} prévia de ${project.title}`} aria-pressed={playing} disabled={unavailable}
           onClick={() => {

@@ -1,25 +1,41 @@
-.scene-rotation-controls { display: flex; justify-content: flex-end; gap: 6px; margin: 8px 24px 0; }
-.scene-rotation-controls button { min-width: 32px; min-height: 32px; border: 1px solid var(--line); border-radius: 5px; color: var(--subtext); background: var(--surface); font-size: 10px; padding: 6px 10px; }
-.scene-rotation-controls button:hover { color: var(--text); border-color: var(--violet); }
-.scene-simple .architecture-scene { min-height: 330px; cursor: default; perspective: none; }
-.scene-simple .stack-model { transform: none; display: flex; flex-direction: column-reverse; align-items: center; justify-content: center; gap: 15px; }
-.scene-simple .stack-plate { position: relative; inset: auto; margin: 0; width: min(88%, 340px); height: 78px; transform: none; box-shadow: none; }
-.scene-simple .stack-plate::before, .scene-simple .stack-plate::after, .scene-simple .scene-halo, .scene-simple .scene-scanline, .scene-simple .scene-glint, .scene-simple .connection-rod, .scene-simple .mini-ui-window, .scene-simple .api-flow, .scene-simple .database-ui { display: none; }
-.scene-simple .plate-inner { transform: none; padding: 12px 18px; }
-.scene-simple .plate-serial { font-size: 9px; }
-.scene-simple .plate-name { font-size: 20px; left: 18px; bottom: 10px; }
-.scene-simple .plate-node { top: 32px; right: 24px; width: 8px; height: 8px; box-shadow: none; }
-.lab-tab[aria-pressed="true"] { border-color: var(--accent); }
-.lab-insight { min-height: 232px; }
-.lab-insight .lab-detail-title { font-size: clamp(24px, 2.5vw, 35px); }
-.orbit-node { overflow-wrap: anywhere; padding: 4px; }
-@supports not (transform-style: preserve-3d) {
-  .architecture-scene { min-height: 330px; perspective: none; }
-  .stack-model { transform: none; display: flex; flex-direction: column-reverse; align-items: center; justify-content: center; gap: 15px; }
-  .stack-plate { position: relative; inset: auto; margin: 0; width: 88%; height: 78px; transform: none; box-shadow: none; }
-  .stack-plate::before, .stack-plate::after, .scene-halo, .scene-scanline, .scene-glint, .connection-rod, .mini-ui-window, .api-flow, .database-ui { display: none; }
-  .plate-inner { transform: none; }
-  .plate-name { font-size: 20px; }
-  .scene-rotation-controls { display: none; }
+/* Y2K skill folders and technology details. */
+.skills-section { padding-top: 34px; }
+.skills-section .skills-main { background: var(--paper); border-block: 1px solid var(--line-light); padding: 24px 25px 18px; display: grid; grid-template-columns: minmax(125px,.23fr) minmax(0,1fr); gap: 28px; border-radius: 12px; }
+.skills-section .skills-intro h2 { font-size: clamp(22px,2.3vw,34px); line-height: 1.1; margin: 9px 0 12px; }
+.skills-section .skills-intro p { font-size: 13px; color: var(--ink-soft); line-height: 1.6; max-width: 200px; }
+.skills-section .folders-and-detail { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.skills-section .folder-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 8px; }
+.skills-section .skill-folder { background: none; border: 1px solid transparent; border-radius: 10px; color: var(--ink); padding: 2px 3px 10px; display: grid; place-items: center; align-content: start; gap: 3px; transition: background .17s,transform .17s; min-width: 0; min-height: 95px; }
+.skills-section .skill-folder .lab-tab-name { font-size: 11px; font-weight: 800; line-height: 1.35; text-align: center; overflow-wrap: anywhere; white-space: normal; }
+.skills-section .skill-folder-icon { position: relative; height: 60px; display: grid; place-items: center; color: var(--accent-deep); filter: drop-shadow(3px 3px 0 rgb(128 77 197 / 19%)); }
+.skills-section .skill-folder-icon svg:first-child { fill: color-mix(in srgb, var(--accent) 45%, var(--paper)); }
+.skills-section .skill-icon-inner { position: absolute; left: 50%; top: 57%; transform: translate(-50%,-50%); }
+.skills-section .skill-folder-active, .skills-section .skill-folder:hover { background: var(--wash); border-color: var(--line-light); transform: translateY(-3px); }
+.skills-section .skill-folder[aria-pressed="true"] { border-color: var(--accent-deep); }
+.skills-section .skill-details { min-height: 140px; border-radius: 9px; border: 1px dashed var(--line-light); background: var(--wash); padding: 14px; display: grid; grid-template-columns: minmax(0,1fr); gap: 10px; }
+.skills-section .skill-detail-prompt { font: 700 10px/1.5 Consolas,monospace; color: var(--accent-deep); overflow-wrap: anywhere; }
+.skills-section .lab-detail-title { font-size: 16px; line-height: 1.4; margin: 6px 0; }
+.skills-section .lab-insight-copy > p { color: var(--ink-soft); font-size: 12px; line-height: 1.65; margin: 0; }
+.skills-section .lab-insight-copy .lab-evidence { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 8px 0 0; }
+.skills-section .lab-evidence span { font: 700 9px/1.6 Consolas,monospace; color: var(--accent-deep); }
+.skills-section .lab-evidence strong { font-size: 10px; font-weight: 600; }
+.skills-section .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; max-width: none; justify-content: flex-start; }
+.skills-section .skill-tag { min-height: 44px; background: var(--paper); color: var(--ink); border: 1px solid var(--line-light); border-radius: 6px; font-size: 11px; font-weight: 700; padding: 8px 10px; }
+.skills-section .skill-tag:hover, .skills-section .skill-tag[aria-pressed="true"] { border-color: var(--accent-deep); background: color-mix(in srgb, var(--accent) 14%, var(--paper)); }
+.skills-section :is(button,a):focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 4px; }
+@media (max-width: 850px) {
+  .skills-section .skills-main { grid-template-columns: 1fr; gap: 15px; }
+  .skills-section .skills-intro { display: grid; grid-template-columns: auto 1fr; gap: 5px 10px; align-items: center; }
+  .skills-section .skills-intro h2 { margin: 0; }
+  .skills-section .skills-intro p { grid-column: 1 / -1; max-width: none; margin: 0; }
 }
-@media (max-width: 760px) { .scene-rotation-controls { margin-inline: 4px; } .lab-tab-name { font-size: 17px; } }
+@media (max-width: 560px) {
+  .skills-section .skills-main { padding: 20px 14px 16px; }
+  .skills-section .folder-grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 6px; }
+  .skills-section .skill-folder { min-height: 91px; }
+  .skills-section .skill-folder .lab-tab-name { font-size: 10px; }
+  .skills-section .skill-details { padding: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skills-section .skill-folder:is(:hover,[aria-pressed="true"]) { transform: none; }
+}

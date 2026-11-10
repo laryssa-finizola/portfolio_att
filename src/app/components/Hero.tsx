@@ -1,21 +1,29 @@
-import { ArchitectureScene } from "./ArchitectureScene";
+import Image from "next/image";
+import { ArrowDown, ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 
 export function Hero() {
   return (
-    <section aria-labelledby="heroTitle" className="hero section-dark" id="inicio">
-      <div aria-hidden="true" className="hero-back-grid" />
-      <div className="hero-content shell">
-        <div className="hero-left">
-          <div className="eyebrow"><span className="status-pip" aria-hidden="true" /><span>PORTFÓLIO / 2026</span><span className="eyebrow-slash" aria-hidden="true">—</span><span>DESENVOLVEDORA FULL-STACK</span></div>
-          <p className="hero-overline">Olá, eu sou Laryssa Finizola <span aria-hidden="true">✳</span></p>
-          <h1 id="heroTitle">Transformo<br /><span className="outline-word">ideias</span> em<br /><span className="highlight-word">sistemas<span className="star-spark" aria-hidden="true">✳</span></span><span className="period">.</span></h1>
-          <p className="hero-description">Da interface à arquitetura de dados, desenvolvo produtos digitais que combinam <strong>experiência, lógica e propósito.</strong></p>
-          <div className="hero-actions"><a className="button button-accent" href="#projetos"><span>Explorar meu trabalho</span><span aria-hidden="true" className="button-arrow">↗</span></a><a className="button button-ghost" href="#laboratorio"><span>Conheça meu processo</span><span aria-hidden="true">↓</span></a></div>
-          <div className="hero-footnote"><span aria-hidden="true" className="tiny-cross">✳</span><span>ENGENHARIA DE SOFTWARE<br />COM OLHAR DE PRODUTO</span><span className="hero-footline" aria-hidden="true" /><span>DESLIZE PARA EXPLORAR</span></div>
+    <section className="hero-section" id="inicio" aria-labelledby="heroTitle">
+      <div className="hero-inner container">
+        <div className="hero-copy">
+          <h1 id="heroTitle">Olá, eu sou<br /><span className="pixel-name">Laryssa Finizola<span className="typing-cursor" aria-hidden="true">|</span></span></h1>
+          <p>Transformo ideias em soluções digitais<br className="desktop-break" /> com foco em impacto, usabilidade e qualidade.</p>
+          <div className="hero-buttons">
+            <a className="btn btn-primary" href="#projetos">Ver projetos <ArrowRight size={19} aria-hidden="true" /></a>
+            <a className="btn btn-secondary" href="#contato">Converse comigo <ArrowDown size={19} aria-hidden="true" /></a>
+          </div>
+          <div className="social-strip" aria-label="Redes e contato">
+            <a href="https://github.com/laryssa-finizola" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><Github size={22} aria-hidden="true" /></a>
+            <a href="https://www.linkedin.com/in/laryssafinizola/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Linkedin size={22} aria-hidden="true" /></a>
+            <a href="mailto:laryssafinizoladev@gmail.com" aria-label="Enviar e-mail"><Mail size={24} aria-hidden="true" /></a>
+          </div>
         </div>
-        <ArchitectureScene />
+        <div className="hero-art">
+          <Image src="/portfolio/assets/hero-dino.webp" alt="Janela retrô LF.exe com um dinossauro rosa em pixel art, corações, nuvens e estrelas." width={1195} height={560} sizes="(max-width: 680px) 100vw, (max-width: 1280px) 53vw, 690px" loading="eager" />
+          <span className="hero-art-caption" aria-hidden="true">hello, world! ♡</span>
+        </div>
       </div>
-      <div aria-hidden="true" className="hero-corner-mark">LF—26 / WEB EXPERIENCES</div>
+      <div className="pixel-divider" aria-hidden="true" />
     </section>
   );
 }
