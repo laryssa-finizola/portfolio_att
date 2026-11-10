@@ -38,11 +38,12 @@ export function CaseDialog({ project, onClose }: { project: Project; onClose: ()
         const first = controls[0];
         const last = controls[controls.length - 1];
         if (!first || !last) { event.preventDefault(); return; }
-        const active = document.activeElement;
-        if (event.shiftKey && (active === first || !dialog.contains(active))) {
+        const activeIndex = controls.findIndex(control => control === document.activeElement);
+        // Clicking dialog text can focus the dialog itself, outside the controls.
+        if (event.shiftKey && activeIndex <= 0) {
           event.preventDefault();
           last.focus();
-        } else if (!event.shiftKey && (active === last || !dialog.contains(active))) {
+        } else if (!event.shiftKey && (activeIndex === -1 || activeIndex === controls.length - 1)) {
           event.preventDefault();
           first.focus();
         }

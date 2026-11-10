@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { Mail } from 'lucide-react';
 import './contact.css';
 
 const emailAddress = 'laryssafinizoladev@gmail.com';
@@ -52,10 +53,10 @@ export function Contact() {
   }
 
   return (
-    <section aria-labelledby="contactTitle" className="contact-section section-dark" id="contato">
-      <div className="shell contact-shell">
-        <div className="section-kicker"><span className="section-index">04 / 04</span><span>PRÓXIMA CONEXÃO</span></div>
-        <div className="contact-heading"><p>PRONTO PARA O PRÓXIMO DESAFIO?</p><h2 id="contactTitle">Vamos criar<br /><span>algo <i>relevante.</i></span><b aria-hidden="true">↗</b></h2></div>
+    <section aria-labelledby="contactTitle" className="contact-section section" id="contato">
+      <div className="container contact-shell retro-panel">
+        <div className="retro-titlebar"><span><Mail size={15} aria-hidden="true" /> 06. CONTATO.EXE</span><span className="retro-controls" aria-hidden="true">_ □ ×</span></div>
+        <div className="contact-heading"><span className="eyebrow-mini">PRÓXIMA CONEXÃO ♡</span><h2 id="contactTitle">Vamos criar algo relevante?</h2></div>
         <div className="contact-bottom">
           <div className="contact-left">
             <p>Se você tem uma oportunidade, um projeto ou uma boa conversa sobre tecnologia, a próxima linha começa aqui.</p>
@@ -71,7 +72,7 @@ export function Contact() {
           </div>
         </div>
         <div className="contact-form-layout">
-          <div className="contact-form-intro"><p className="section-kicker">OU ESCREVA POR AQUI</p><h3>Uma boa conversa<br />é um começo.</h3><p>Conte um pouco sobre o que você tem em mente. Seu contato chega diretamente ao meu e-mail.</p></div>
+          <div className="contact-form-intro"><p className="eyebrow-mini">OU ESCREVA POR AQUI</p><h3>Uma boa conversa<br />é um começo.</h3><p>Conte um pouco sobre o que você tem em mente. Seu contato chega diretamente ao meu e-mail.</p></div>
           <form className="contact-form" onSubmit={handleSubmit} aria-labelledby="formTitle" aria-busy={status.state === 'sending'}>
             <h3 id="formTitle" className="sr-only">Enviar mensagem para Laryssa</h3>
             <div hidden aria-hidden="true"><label htmlFor="contact-company">Empresa</label><input id="contact-company" name="company" tabIndex={-1} autoComplete="off" value={formData.company} onChange={event => setFormData({ ...formData, company: event.target.value })} /></div>
@@ -85,7 +86,6 @@ export function Contact() {
           </form>
         </div>
       </div>
-      <div aria-hidden="true" className="contact-orbit" />
     </section>
   );
 }

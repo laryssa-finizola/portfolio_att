@@ -1,11 +1,7 @@
-﻿export function Footer() {
+import { ArrowUp } from "lucide-react";
+
+export function Footer() {
   return (
-    <footer className="section-dark">
-      <div className="shell site-footer">
-        <a href="#inicio" aria-label="Laryssa Finizola, voltar ao início">LF<span aria-hidden="true">.</span></a>
-        <span>© {new Date().getFullYear()} LARYSSA FINIZOLA · PORTFÓLIO INTERATIVO</span>
-        <a href="#inicio">VOLTAR AO TOPO <span aria-hidden="true">↑</span></a>
-      </div>
-    </footer>
+    <footer className="site-footer"><div className="container footer-inner"><span className="footer-love">Feito com <span aria-label="carinho">♥</span> e algumas linhas de código.</span><span>© {new Date().getFullYear()} Laryssa Finizola</span><a href="#inicio">Voltar ao topo <ArrowUp size={14} aria-hidden="true" /></a></div></footer>
   );
 }

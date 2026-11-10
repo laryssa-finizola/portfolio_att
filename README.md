@@ -1,6 +1,8 @@
 # Portfólio — Laryssa Finizola
 
-Integração do visual V4 no projeto original Next.js App Router, React e TypeScript. A página usa componentes React e CSS 3D; não executa o HTML ou o script global do ZIP.
+Identidade retrô/Y2K integrada ao projeto original Next.js App Router, React e TypeScript. Janelas em lavanda e rosa, pixel art e pastas de habilidades apresentam os projetos, com formulário de contato, filtros e detalhes das tecnologias. A aplicação usa componentes React; a prévia HTML independente do ZIP não integra o build.
+
+A integração está na branch `feature/redesign-y2k`, baseada em `reformulacao-v4` (`f06fe9f`). Nenhum commit, push, merge ou deploy é feito automaticamente.
 
 ## Executar
 
@@ -43,16 +45,18 @@ Se o pacote puder ser resolvido normalmente pelo Node, não é preciso definir `
 ## Conteúdo e manutenção
 
 - `src/lib/data.ts`: sete projetos, status, links confirmados, mídias e bastidores tipados.
-- `src/app/components/ArchitectureScene.tsx`: rotação, seleção das camadas e alternativa 2D.
-- `src/app/components/Skills.tsx`: quatro categorias e tecnologias do laboratório.
-- `src/app/globals.css`: sistema visual aprovado; os arquivos CSS dos componentes contêm adaptações locais.
-- `public/portfolio/assets/previews/`: três clipes otimizados e capas WebP; as gravações longas não foram copiadas.
+- `src/app/components/Skills.tsx`: cinco pastas de habilidades, seleção de tecnologias e detalhes individuais.
+- `src/app/components/Experience.tsx`: trajetória profissional e formação, separadas da seção Sobre; a foto real e a biografia permanecem no portfólio.
+- `src/app/globals.css`: identidade Y2K e temas; os arquivos CSS dos componentes contêm adaptações locais.
+- `public/portfolio/assets/`: artes WebP da apresentação e do Sobre.
+- `public/portfolio/assets/previews/`: seis clipes otimizados e capas WebP; as gravações longas não foram copiadas.
+
+A vitrine mostra LOOP 3D Studio, Margem e Heloire primeiro; os outros quatro projetos ficam em “Explorar mais projetos”. Os filtros por categoria continuam disponíveis e encontram também os projetos adicionais. Os vídeos usam carregamento por intenção/interação, reprodução coordenada e pausa fora da área visível ou ao ocultar a aba. Movimento reduzido, economia de dados e conexão lenta desativam a reprodução automática; o botão de reprodução permanece disponível.
+
+O CTA “Converse comigo” leva à seção de contato (`#contato`). O currículo provisório do ZIP não foi incluído: um download de currículo depende do PDF oficial.
 
 Margem, Alinhora e Rodrigues Turismo não têm endereço público confirmado. Adicione `result` ao respectivo projeto somente quando houver uma URL confirmada. Challengefy e Fullstackfy apontam para repositórios.
 
 ## Contato
 
 O formulário preserva a integração original com Resend. Configure apenas no servidor as variáveis `RESEND_API_KEY`, `CONTACT_TO_EMAIL` e `CONTACT_FROM_EMAIL`, usando os valores reais já adotados no projeto. Sem elas, a API responde 503; e-mail direto, telefone, redes e copiar e-mail continuam disponíveis. Nunca coloque esses valores em `public/` nem use o prefixo `NEXT_PUBLIC_`.
-
-Veja o [relatório de integração](docs/INTEGRACAO_V4.md) para diagnóstico, alterações, validação, limitações e reversão segura.
-
