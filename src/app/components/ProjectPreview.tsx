@@ -76,10 +76,13 @@ function automaticPlaybackAllowed() {
   return !document.hidden && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && !connection?.saveData && !['slow-2g', '2g', '3g'].includes(connection?.effectiveType || '');
 }
 
-interface ProjectPreviewProps { project: Project; autoplay?: boolean; sizes?: string; children?: ReactNode }
+interface ProjectPreviewProps { project: Project; autoplay?: boolean; controls?: boolean; sizes?: string; children?: ReactNode }
 
-/** Capa + vídeo sob demanda. Com autoplay=false (padrão), o vídeo só toca por ação explícita. */
-export const ProjectPreview = forwardRef<PreviewHandle, ProjectPreviewProps>(function ProjectPreview({ project, autoplay = false, sizes = '(max-width: 900px) 92vw, 58vw', children }, ref) {
+/**
+ * Capa + vídeo sob demanda. Com autoplay=false (padrão), o vídeo só toca por ação explícita:
+ * o botão (controls) ou o handle play() chamado no hover/foco de quem usa o componente.
+ */
+export const ProjectPreview = forwardRef<PreviewHandle, ProjectPreviewProps>(function ProjectPreview({ project, autoplay = false, controls = true, sizes = '(max-width: 900px) 92vw, 58vw', children }, ref) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const pending = useRef(false);
@@ -181,7 +184,7 @@ export const ProjectPreview = forwardRef<PreviewHandle, ProjectPreviewProps>(fun
         <Image alt={preview.alt} src={preview.poster} width={960} height={504} sizes={sizes} className="preview__poster" />
         {children}
       </div>
-      <button className="preview__toggle" type="button" aria-pressed={playing} disabled={unavailable}
+      {controls && <button className="preview__toggle" type="button" aria-pressed={playing} disabled={unavailable}
         aria-label={unavailable ? `Prévia indisponível de ${project.title}` : `${playing ? 'Pausar' : 'Reproduzir'} prévia de ${project.title}`}
         onClick={() => {
           if (playing) {
@@ -195,7 +198,7 @@ export const ProjectPreview = forwardRef<PreviewHandle, ProjectPreviewProps>(fun
         }}>
         <span aria-hidden="true">{playing ? '❚❚' : '▶'}</span>
         <span>{unavailable ? 'Prévia indisponível' : playing ? 'Pausar prévia' : 'Assistir prévia em vídeo'}</span>
-      </button>
+      </button>}
     </div>
   );
 });

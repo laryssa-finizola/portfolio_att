@@ -42,7 +42,7 @@ Se o pacote puder ser resolvido normalmente pelo Node, não é preciso definir `
 
 ## Conteúdo e manutenção
 
-- `src/lib/data.ts`: projetos em destaque, outros projetos, trajetória e contato.
+- `src/lib/data.ts`: projetos (ordem da grade, categoria e mídia), trajetória e contato.
 - `src/app/components/Skills.tsx`: pastas de habilidades e detalhes de cada tecnologia (estilos em `lab.css`).
 - `src/app/components/Contact.tsx`: contato e formulário (estilos em `contact.css`).
 - `src/app/globals.css`: paleta, malha e estilos das demais seções.
