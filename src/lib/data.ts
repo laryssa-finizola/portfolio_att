@@ -90,8 +90,8 @@ export const projects: readonly Project[] = [
 
 export const experience = [
   { when: '2026 — agora', role: 'Estágio em Engenharia de Software', org: 'NUTES / UEPB', detail: 'APIs REST e microsserviços para saúde digital.' },
-  { when: '2025 — agora', role: 'Desenvolvimento full-stack', org: 'Jrssoft', detail: 'TypeScript, NestJS e integrações entre sistemas.' },
-  { when: 'em curso', role: 'Bacharelado em Ciência da Computação', org: 'UEPB', detail: 'Universidade Estadual da Paraíba.' },
+  { when: '2025 — 2026', role: 'Desenvolvimento full-stack', org: 'Jrssoft', detail: 'TypeScript, NestJS e integrações entre sistemas.' },
+  { when: '2025 — 2026', role: 'Desenvolvedora Residente', org: 'Bolsa Futuro Digital', detail: 'Organizações: Softex, Aponti e MCTI.' },
 ] as const;
 
 export const contact = {
