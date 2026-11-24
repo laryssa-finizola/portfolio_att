@@ -4,6 +4,10 @@ import { createContext, forwardRef, useCallback, useContext, useEffect, useImper
 import Image from 'next/image';
 import type { Project } from '@/lib/data';
 
+/**
+ * Coordena as prévias em vídeo da página: só uma toca por vez, nenhuma toca
+ * com um diálogo aberto, e uma pausa feita pela pessoa é respeitada.
+ */
 interface PlaybackCoordinator {
   claim: (video: HTMLVideoElement, stop: () => void) => number | null;
   isCurrent: (video: HTMLVideoElement, token: number) => boolean;
@@ -72,7 +76,10 @@ function automaticPlaybackAllowed() {
   return !document.hidden && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && !connection?.saveData && !['slow-2g', '2g', '3g'].includes(connection?.effectiveType || '');
 }
 
-export const ProjectPreview = forwardRef<PreviewHandle, { project: Project; featured: boolean }>(function ProjectPreview({ project, featured }, ref) {
+interface ProjectPreviewProps { project: Project; autoplay?: boolean; sizes?: string; children?: ReactNode }
+
+/** Capa + vídeo sob demanda. Com autoplay=false (padrão), o vídeo só toca por ação explícita. */
+export const ProjectPreview = forwardRef<PreviewHandle, ProjectPreviewProps>(function ProjectPreview({ project, autoplay = false, sizes = '(max-width: 900px) 92vw, 58vw', children }, ref) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const pending = useRef(false);
@@ -110,7 +117,7 @@ export const ProjectPreview = forwardRef<PreviewHandle, { project: Project; feat
     try {
       await video.play();
       if (!alive.current || nextRequest !== request.current || !coordinator.isCurrent(video, nextToken)) {
-        // An older promise must not stop a newer request for this same video.
+        // Uma promessa antiga não pode parar um pedido mais novo deste mesmo vídeo.
         if (token.current === null || !coordinator.isCurrent(video, token.current)) video.pause();
         return;
       }
@@ -143,12 +150,7 @@ export const ProjectPreview = forwardRef<PreviewHandle, { project: Project; feat
       for (const entry of entries) {
         visible.current = entry.isIntersecting && entry.intersectionRatio >= 0.65;
         if (!visible.current) stop();
-        else {
-          // Scrolling can deliver pointer/focus intent before visibility updates.
-          const card = frame.closest('article');
-          const desktopIntent = card?.matches(':hover') || card?.contains(document.activeElement);
-          if (window.matchMedia('(hover: none), (pointer: coarse)').matches || desktopIntent) void play();
-        }
+        else if (autoplay) void play();
       }
     }, { threshold: [0, 0.65] }) : null;
     if (observer) observer.observe(frame);
@@ -166,33 +168,34 @@ export const ProjectPreview = forwardRef<PreviewHandle, { project: Project; feat
       video.removeAttribute('src');
       video.load();
     };
-  }, [coordinator, play]);
+  }, [autoplay, coordinator, play]);
 
   if (!preview) return null;
   return (
-    <div ref={frameRef} className={`preview-frame preview-frame--${featured ? 'feature' : 'regular'}${playing ? ' is-playing' : ''}`} data-video-project={project.id}>
-      <div aria-hidden="true" className="preview-chrome"><span className="preview-dots"><i /><i /><i /></span><span>{project.title} / DEMONSTRAÇÃO REAL</span><span className="preview-arrow">↗</span></div>
-      <div className="preview-media">
-        <video ref={videoRef} aria-hidden="true" className="preview-video" loop muted playsInline preload="none"
+    <div ref={frameRef} className={`preview${playing ? ' is-playing' : ''}`} data-video-project={project.id}>
+      <div className="preview__media">
+        <video ref={videoRef} aria-hidden="true" className="preview__video" loop muted playsInline preload="none"
           onPlaying={(event) => { if (token.current !== null && coordinator.isCurrent(event.currentTarget, token.current)) setPlaying(true); else event.currentTarget.pause(); }}
           onPause={() => { if (alive.current) setPlaying(false); }}
           onError={() => { if (alive.current) { pause(); setUnavailable(true); } }} />
-        <Image alt={`Prévia da interface de ${project.title}`} src={preview.poster} width={960} height={504} sizes={featured ? '(max-width: 1000px) 85vw, 44vw' : '(max-width: 800px) 90vw, (max-width: 1100px) 44vw, 26vw'} className="preview-poster" />
-        <span aria-hidden="true" className="preview-overlay" />
-        <button className="preview-toggle" type="button" aria-label={unavailable ? `Prévia indisponível de ${project.title}` : `${playing ? 'Pausar' : 'Reproduzir'} prévia de ${project.title}`} aria-pressed={playing} disabled={unavailable}
-          onClick={() => {
-            if (playing) {
-              coordinator.setUserPaused(project.id, true);
-              pause();
-            } else {
-              // Hover/focus may already be loading: the visible Play action confirms it.
-              coordinator.setUserPaused(project.id, false);
-              if (!pending.current) void play(true);
-            }
-          }}>
-          <span aria-hidden="true" className="preview-toggle-icon">{playing ? '❚❚' : '▶'}</span><span className="preview-toggle-label">{unavailable ? 'Prévia indisponível' : playing ? 'Pausar' : 'Assistir prévia'}</span>
-        </button>
+        <Image alt={preview.alt} src={preview.poster} width={960} height={504} sizes={sizes} className="preview__poster" />
+        {children}
       </div>
+      <button className="preview__toggle" type="button" aria-pressed={playing} disabled={unavailable}
+        aria-label={unavailable ? `Prévia indisponível de ${project.title}` : `${playing ? 'Pausar' : 'Reproduzir'} prévia de ${project.title}`}
+        onClick={() => {
+          if (playing) {
+            coordinator.setUserPaused(project.id, true);
+            pause();
+          } else {
+            // A ação visível confirma a reprodução, mesmo que algo já esteja carregando.
+            coordinator.setUserPaused(project.id, false);
+            if (!pending.current) void play(true);
+          }
+        }}>
+        <span aria-hidden="true">{playing ? '❚❚' : '▶'}</span>
+        <span>{unavailable ? 'Prévia indisponível' : playing ? 'Pausar prévia' : 'Assistir prévia em vídeo'}</span>
+      </button>
     </div>
   );
 });

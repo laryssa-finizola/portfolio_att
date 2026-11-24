@@ -68,7 +68,7 @@ export function Skills() {
   return (
     <section aria-labelledby="skills-title" className="skills-section section" id="habilidades">
       <div className="container">
-        <div className="section-marker"><span>05.</span> HABILIDADES.EXE</div>
+        <div className="section-marker"><span>02.</span> HABILIDADES.EXE</div>
         <div className="skills-main">
           <div className="skills-intro">
             <div className="section-heading-icon" aria-hidden="true">✦</div>

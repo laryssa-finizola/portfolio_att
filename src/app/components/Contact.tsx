@@ -55,7 +55,7 @@ export function Contact() {
   return (
     <section aria-labelledby="contactTitle" className="contact-section section" id="contato">
       <div className="container contact-shell retro-panel">
-        <div className="retro-titlebar"><span><Mail size={15} aria-hidden="true" /> 06. CONTATO.EXE</span><span className="retro-controls" aria-hidden="true">_ □ ×</span></div>
+        <div className="retro-titlebar"><span><Mail size={15} aria-hidden="true" /> 04. CONTATO.EXE</span><span className="retro-controls" aria-hidden="true">_ □ ×</span></div>
         <div className="contact-heading"><span className="eyebrow-mini">PRÓXIMA CONEXÃO ♡</span><h2 id="contactTitle">Vamos criar algo relevante?</h2></div>
         <div className="contact-bottom">
           <div className="contact-left">
