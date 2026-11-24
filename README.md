@@ -1,8 +1,6 @@
 # Portfólio — Laryssa Finizola
 
-Identidade retrô/Y2K integrada ao projeto original Next.js App Router, React e TypeScript. Janelas em lavanda e rosa, pixel art e pastas de habilidades apresentam os projetos, com formulário de contato, filtros e detalhes das tecnologias. A aplicação usa componentes React; a prévia HTML independente do ZIP não integra o build.
-
-A integração está na branch `feature/redesign-y2k`, baseada em `reformulacao-v4` (`f06fe9f`). Nenhum commit, push, merge ou deploy é feito automaticamente.
+Portfólio em Next.js App Router, React e TypeScript. Identidade lilás com malha quadriculada, títulos em Fraunces e uma página enxuta: hero, projetos selecionados, habilidades, trajetória e contato. Histórico das decisões de design em [docs/redesign-2026.md](docs/redesign-2026.md).
 
 ## Executar
 
@@ -44,18 +42,13 @@ Se o pacote puder ser resolvido normalmente pelo Node, não é preciso definir `
 
 ## Conteúdo e manutenção
 
-- `src/lib/data.ts`: sete projetos, status, links confirmados, mídias e bastidores tipados.
-- `src/app/components/Skills.tsx`: cinco pastas de habilidades, seleção de tecnologias e detalhes individuais.
-- `src/app/components/Experience.tsx`: trajetória profissional e formação, separadas da seção Sobre; a foto real e a biografia permanecem no portfólio.
-- `src/app/globals.css`: identidade Y2K e temas; os arquivos CSS dos componentes contêm adaptações locais.
-- `public/portfolio/assets/`: artes WebP da apresentação e do Sobre.
-- `public/portfolio/assets/previews/`: seis clipes otimizados e capas WebP; as gravações longas não foram copiadas.
+- `src/lib/data.ts`: projetos em destaque, outros projetos, trajetória e contato.
+- `src/app/components/Skills.tsx`: pastas de habilidades e detalhes de cada tecnologia (estilos em `lab.css`).
+- `src/app/components/Contact.tsx`: contato e formulário (estilos em `contact.css`).
+- `src/app/globals.css`: paleta, malha e estilos das demais seções.
+- `public/portfolio/assets/previews/`: clipes otimizados e capas WebP.
 
-A vitrine mostra LOOP 3D Studio, Margem e Heloire primeiro; os outros quatro projetos ficam em “Explorar mais projetos”. Os filtros por categoria continuam disponíveis e encontram também os projetos adicionais. Os vídeos usam carregamento por intenção/interação, reprodução coordenada e pausa fora da área visível ou ao ocultar a aba. Movimento reduzido, economia de dados e conexão lenta desativam a reprodução automática; o botão de reprodução permanece disponível.
-
-O CTA “Converse comigo” leva à seção de contato (`#contato`). O currículo provisório do ZIP não foi incluído: um download de currículo depende do PDF oficial.
-
-Margem, Alinhora e Rodrigues Turismo não têm endereço público confirmado. Adicione `result` ao respectivo projeto somente quando houver uma URL confirmada. Challengefy e Fullstackfy apontam para repositórios.
+Adicione `link` a um projeto só quando houver URL confirmada. As prévias em vídeo só carregam quando a pessoa pede; movimento reduzido desliga as animações.
 
 ## Contato
 
