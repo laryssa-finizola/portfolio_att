@@ -52,22 +52,42 @@ async function noOverflow(page) {
       assert.equal((await page.request.get(new URL('/sitemap.xml', base).href)).status(), 200);
     });
 
-    await check('projects: three featured, four more, confirmed links only', async () => {
-      assert.equal(await page.locator('.projects > li').count(), 3);
-      assert.equal(await page.locator('.more-list > li').count(), 4);
-      assert.equal(await page.getByRole('link', { name: /Ver site publicado: LOOP 3D Studio/ }).getAttribute('href'), 'https://loop-3d-studio.vercel.app/');
-      assert.equal(await page.getByRole('link', { name: /Ver site publicado: Heloire/ }).getAttribute('href'), 'https://heloire.vercel.app/');
-      assert.equal(await page.getByRole('link', { name: /Repositório: Challengefy/ }).getAttribute('href'), 'https://github.com/jrs-soft/challengefy-front');
+    await check('projects: seven tiles, confirmed links only, every tile has an image', async () => {
+      assert.equal(await page.locator('.tiles > li').count(), 7);
+      assert.equal(await page.locator('.tiles img[alt=""]').count(), 0);
+      assert.equal(await page.locator('.tiles .preview img').count(), 7);
+      assert.equal(await page.getByRole('link', { name: /^LOOP 3D Studio/ }).getAttribute('href'), 'https://loop-3d-studio.vercel.app/');
+      assert.equal(await page.getByRole('link', { name: /^Heloire/ }).getAttribute('href'), 'https://heloire.vercel.app/');
+      assert.equal(await page.getByRole('link', { name: /^Challengefy/ }).getAttribute('href'), 'https://github.com/jrs-soft/challengefy-front');
+      assert.equal(await page.getByRole('link', { name: /^Rodrigues Turismo/ }).getAttribute('href'), 'https://rodrigues-tour.vercel.app/');
+      // Sem link público confirmado, o bloco não é clicável.
+      assert.equal(await page.locator('[data-video-project="margem"]').evaluate((el) => el.closest('a')), null);
     });
 
-    await check('video preview only plays on request and pauses', async () => {
-      const frame = page.locator('[data-video-project="loop"]');
-      await frame.scrollIntoViewIfNeeded();
-      await frame.getByRole('button', { name: 'Reproduzir prévia de LOOP 3D Studio' }).click();
-      await until(page, () => document.querySelector('[data-video-project="loop"]').classList.contains('is-playing'));
-      assert.ok(await frame.locator('video').evaluate((v) => v.muted && v.playsInline));
-      await frame.getByRole('button', { name: 'Pausar prévia de LOOP 3D Studio' }).click();
-      await until(page, () => document.querySelector('[data-video-project="loop"] video').paused);
+    await check('reduced motion: hover keeps the poster, no video loads', async () => {
+      const tile = page.locator('.tile', { has: page.locator('[data-video-project="loop"]') });
+      await tile.scrollIntoViewIfNeeded();
+      await tile.hover();
+      await page.waitForTimeout(600);
+      assert.equal(await page.locator('video[src]').count(), 0);
+    });
+
+    await check('hover and keyboard focus play the preview; leaving pauses it', async () => {
+      const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+      const p = await ctx.newPage();
+      observe(p);
+      await p.goto(base, { waitUntil: 'networkidle' });
+      const tile = p.locator('.tile', { has: p.locator('[data-video-project="loop"]') });
+      await tile.scrollIntoViewIfNeeded();
+      await p.waitForTimeout(300);
+      await tile.hover();
+      await until(p, () => document.querySelector('[data-video-project="loop"]').classList.contains('is-playing'));
+      assert.ok(await tile.locator('video').evaluate((v) => v.muted && v.playsInline));
+      await p.mouse.move(5, 5);
+      await until(p, () => document.querySelector('[data-video-project="loop"] video').paused);
+      await tile.locator('a').focus();
+      await until(p, () => document.querySelector('[data-video-project="loop"]').classList.contains('is-playing'));
+      await ctx.close();
     });
 
     await check('skill folders switch the detail panel', async () => {

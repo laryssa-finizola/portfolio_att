@@ -6,7 +6,7 @@ Feedback: a v1 (“Caderno anotado”, abaixo) mostrava informação demais; o v
 
 - **Hero:** “Construo software agradável de usar — e fácil de manter.” + “Interfaces que as pessoas entendem na hora. Código que a equipe evolui sem medo.” Sem experiências, sem ficha. Eyebrow: “Laryssa Finizola · Engenheira de Software”.
 - **Robô de argila 3D** (`ClayRobot.tsx`) no lugar do dinossauro: criação própria, inspirada no estilo “clay” do OriginKit, sem copiar o componente pago. Um único fragment shader WebGL2 (ray marching de SDF), sem bibliotecas. Segue o cursor, pisca, acena ao aparecer e pula com olhos felizes ao toque. Só desenha visível; reduz a resolução se a GPU atrasar; movimento reduzido = quadro estático; sem WebGL2 = `clay-robot.webp` (28 KB, gerada do próprio render).
-- **Projetos:** imagem, nome, uma linha, status e link. Saíram pinos, listas de decisões, notas e tags. Outros quatro projetos numa lista simples.
+- **Projetos (v2.1):** uma grade única de 2 colunas com os 7 projetos. Cada bloco: imagem, nome e categoria (com o status quando não há link público). O vídeo de prévia toca no hover ou no foco do teclado e pausa ao sair; com movimento reduzido fica só a capa. Sem botões, sem tags, sem descrição visível (o resumo fica para leitores de tela). Referências: portfólios de outras pessoas enviados pela Laryssa, usados só como princípio (imagem em primeiro plano, texto mínimo).
 - **Voltaram do design anterior:** malha quadriculada, paleta lilás, Habilidades (pastas), Contato e Rodapé.
 - **Mantido da v1:** Trajetória (sem a legenda da ilustração), títulos em Fraunces, ProfilePage, robots e sitemap.
 - **Saíram:** Como construo (pilha), Serviços, selo flutuante e colofão.
